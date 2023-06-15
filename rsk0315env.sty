@@ -1,0 +1,17 @@
+\usepackage[ruled, vlined]{algorithm2e}
+\newenvironment{alg}{%
+  \begin{algorithm}
+    \DontPrintSemicolon
+    \SetKwBlock{Function}{function}{end function}
+    \SetKwComment{Comment}{$\rhd$~}{}
+    \SetProgSty{\rmdefault}
+    \SetCommentSty{\rmdefault}
+    \SetKw{Break}{break}
+    \SetKw{Continue}{continue}
+
+    % \Function(\textsc{Foo}{$(x)$})
+    % {
+    % }
+}{%
+  \end{algorithm}%
+}

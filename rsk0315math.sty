@@ -1,0 +1,18 @@
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+
+\newcommand{\floor}[1]{\lfloor#1\rfloor}
+\newcommand{\Floor}[1]{\left\lfloor#1\right\rfloor}
+\newcommand{\ceil}[1]{\lceil#1\rceil}
+\newcommand{\Ceil}[1]{\left\lceil#1\right\rceil}
+\newcommand{\angled}[1]{\langle#1\rangle}
+\newcommand{\Angled}[1]{\left\langle#1\right\rangle}
+\newcommand{\dd}[1]{\mathrm{d}#1}
+\newcommand{\binomc}[2]{{}_{#1}{C}_{#2}}
+
+% https://tex.stackexchange.com/questions/114188/special-character-dot-over-dash
+\makeatletter
+\newcommand{\@dotminus}{\ooalign{\hidewidth\raise1ex\hbox{.}\hidewidth\cr$\m@th-$\cr}}
+\newcommand{\dotminus}{\mathbin{\text{\@dotminus}}}
+\makeatother

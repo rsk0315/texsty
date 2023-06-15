@@ -1,0 +1,64 @@
+\usepackage{luatexja-fontspec}
+\usepackage{mathpazo}
+\usepackage[euler-digits]{eulervm}
+\SetSymbolFont{operators}{normal}{T1}{ccr}{m}{n}
+\usepackage{euscript}
+\usepackage{bm}
+\usepackage{amsfonts}
+\usepackage{lato}
+
+\AtBeginDocument{\DeclareMathAlphabet\mathbf{U}{eur}{b}{n}}
+
+% https://www.lucasfonts.com/fonts/the-sans-mono/condensed
+% https://www.overleaf.com/learn/latex/Articles/An_Introduction_to_LuaTeX_(Part_2)%3A_Understanding_%5Cdirectlua#Using_the_tilde_character_.28.7E.29
+\begingroup
+\catcode`\~=11
+\directlua {
+  fonts.handlers.otf.addfeature {
+    name = "monoalt",
+    type = "substitution",
+    data = {
+      ["0"] = "zero.lf.slashed",
+      ["1"] = "one.lf",
+      ["2"] = "two.lf",
+      ["3"] = "three.lf",
+      ["4"] = "four.lf",
+      ["5"] = "five.lf",
+      ["6"] = "six.lf",
+      ["7"] = "seven.lf",
+      ["8"] = "eight.lf",
+      ["9"] = "nine.lf",
+      ["g"] = "g.alt1",
+      ["y"] = "y.alt1",
+      ["G"] = "G.alt1",
+      ["Q"] = "Q.alt",
+      ["*"] = "asterisk.alt1",
+      ["~"] = "asciitilde.alt1",
+    }
+  }
+}
+\endgroup
+
+% https://tex.stackexchange.com/questions/498062/using-otf-files-in-the-texmf-tree-with-lualatex
+\directlua {
+  fonts.names.set_location_precedence {
+    "local", "texmf", "system"
+  }
+}
+
+\setmonofont[
+  Extension = .otf,
+  UprightFont = TheSansMonoCd-W5Regular,
+  BoldFont = TheSansMonoCd-W7Bold,
+  ItalicFont = TheSansMonoCd-W5RegularItal,
+  BoldItalicFont = TheSansMonoCd-W7BoldItalic,
+]{TheSansMonoCd}[RawFeature=+monoalt]
+
+\setmainfont[
+  Extension = .ttf,
+  %% Ligatures = {Rare, Historic},
+  Ligatures = Rare,
+  BoldFont = Junicode-Bold,
+  ItalicFont = Junicode-Italic,
+  BoldItalicFont = Junicode-BoldItalic,
+]{Junicode}

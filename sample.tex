@@ -1,0 +1,40 @@
+%! lualatex -shell-escape \\nonstopmode\\input sample.tex
+
+\documentclass[lualatex, ja=standard]{ltjsarticle}
+
+\usepackage{rsk0315}
+
+\author{\lato{\textcolor{useryellow}{\textbf{rsk0315}}}}
+\title{Sample \directlua{commit_hash_and_date("\jobname.tex")}}
+
+\begin{document}
+
+\maketitle
+
+test
+
+$n \in \mathbb{Z}$
+
+$$
+f(a) = \frac{1}{2\pi i}\cdot \oint_{\gamma} \frac{f(z)}{z-a} \, \dd{z}
+$$
+
+$\mathcal{L}(\mathcal{A})$
+
+\begin{alg}
+  \caption{xxx}
+  \Function(\textsc{Foo}{$(x)$}){
+    {$x \gets x$}\;
+  }
+\end{alg}
+
+\begin{minted}[mathescape]{rust}
+  fn main() {
+    // $119\cdot 2^{23} + 1 = 998244353$
+    println!("{}", 119 << 23 | 1);
+  }
+\end{minted}
+
+todo: 適当なサンプルとして使える擬似コードや数式などを用意する。
+
+\end{document}
