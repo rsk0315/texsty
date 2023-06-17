@@ -9,11 +9,11 @@ function latest_commit.get_latest_commit(options, name)
 end
 
 function latest_commit.commit_hash_and_date(name)
-   options = "--format='\\footnotesize{%cd} (\\texttt{\\scriptsize %h})' --date=format:'%b.~%d %H:%M, %Y'"
+   options = "--format='{\\relsize{-1}%cd} (\\texttt{\\relsize{-2}%h})' --date=format:'%b.~%d %H:%M, %Y'"
    res = latest_commit.get_latest_commit(options, name)
    res, _ = string.gsub(res, '\n', '')
    if res == '' then
-      tex.print(string.format('{\\scriptsize (\\emph{untracked})}'))
+      tex.print(string.format('{\\relsize{-1}(\\emph{untracked})}'))
       return
    end
    res, _ = string.gsub(res, 'May.', 'May')

@@ -18,18 +18,18 @@
     name = "monoalt",
     type = "substitution",
     data = {
-      ["0"] = "zero.lf.slashed",
-      ["1"] = "one.lf",
-      ["2"] = "two.lf",
-      ["3"] = "three.lf",
-      ["4"] = "four.lf",
-      ["5"] = "five.lf",
-      ["6"] = "six.lf",
-      ["7"] = "seven.lf",
-      ["8"] = "eight.lf",
-      ["9"] = "nine.lf",
-      ["g"] = "g.alt1",
-      ["y"] = "y.alt1",
+      ["0"] = "zero.LinTab.slashed",
+      ["1"] = "one.LinTab",
+      ["2"] = "two.LinTab",
+      ["3"] = "three.LinTab",
+      ["4"] = "four.LinTab",
+      ["5"] = "five.LinTab",
+      ["6"] = "six.LinTab",
+      ["7"] = "seven.LinTab",
+      ["8"] = "eight.LinTab",
+      ["9"] = "nine.LinTab",
+      ["g"] = "g.alt",
+      ["y"] = "y.alt",
       ["G"] = "G.alt1",
       ["Q"] = "Q.alt",
       ["*"] = "asterisk.alt1",
@@ -48,10 +48,12 @@
 
 \setmonofont[
   Extension = .otf,
-  UprightFont = TheSansMonoCd-W5Regular,
+  UprightFont = TheSansMonoCd-W4SemiLight,
   BoldFont = TheSansMonoCd-W7Bold,
-  ItalicFont = TheSansMonoCd-W5RegularItal,
+  ItalicFont = TheSansMonoCd-W4SemiLightItalic,
   BoldItalicFont = TheSansMonoCd-W7BoldItalic,
+  FontFace = {l}{n}{TheSansMonoCd-W2ExtraLight},
+  FontFace = {l}{it}{TheSansMonoCd-W2ExtraLightItali},
 ]{TheSansMonoCd}[RawFeature=+monoalt]
 
 \setmainfont[
@@ -62,3 +64,5 @@
   ItalicFont = Junicode-Italic,
   BoldItalicFont = Junicode-BoldItalic,
 ]{Junicode}
+
+\setsansfont{Lucida Grande}

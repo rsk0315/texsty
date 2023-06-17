@@ -4,73 +4,32 @@
 
 \usepackage{rsk0315}
 
-%% ---
-\usepackage{tcolorbox}
-\tcbuselibrary{
-  breakable,
-  skins,
-  minted,
-}
-\tcbset{listing engine=minted}
-
-\definecolor{bgblack}{HTML}{555555}
-\newtcblisting{samplecode}[2]{
-  listing only,
-  enhanced,
-  title={\relsize{-1}{\textsf{#2}}},
-  colback=white,
-  colframe=bgblack,
-  minted options={style=bw, frame=none, mathescape},
-  minted language=#1,
-}
-\newtcbinputlisting{\samplecodeinput}[2]{
-  listing only,
-  listing file={#2},
-  enhanced,
-  title={\relsize{-1}{\textsf{#2}}},
-  colback=white,
-  colframe=bgblack,
-  minted options={style=bw, frame=none, mathescape},
-  minted language=#1,
-}
-%% ---
-\definecolor{colorcolframe}{HTML}{000000}
-\definecolor{colorcoltext}{HTML}{D24A34}
-\definecolor{colorcolback}{HTML}{EEEEEE}
-\definecolor{colorfill}{HTML}{555555}
-\definecolor{colorlabel}{HTML}{FFFFFF}
-
-\newtcbox{\stdrust}{enhanced,nobeforeafter,tcbox raise base,boxrule=0.4pt,top=0mm,bottom=0mm,
-  right=0mm,left=4mm,arc=1pt,boxsep=2pt,before upper={\vphantom{dlg}},
-  colframe=colorcolframe,coltext=colorcoltext,colback=colorcolback,
-  overlay={\begin{tcbclipinterior}\fill[colorfill] (frame.south west)
-    rectangle node[text=colorlabel,font=\sffamily\bfseries\tiny,rotate=90] {LIB} ([xshift=4mm]frame.north west);\end{tcbclipinterior}}}
-
-\robustify{\stdrust}
-%% ---
-\usepackage[colorlinks, urlcolor=magenta, linkcolor=magenta]{hyperref}
-\renewcommand{\url}[1]{\href{#1}{\relsize{-1}{\nolinkurl{#1}}}}
-%% ---
-
-\author{\lato{\textcolor{useryellow}{\textbf{rsk0315}}}}
-\title{Sample}
-\date{\directlua{commit_hash_and_date("\jobname.tex")}}
+\title{\relsize{3}Sample with Lua\LaTeX{}}
 
 \begin{document}
 
 \maketitle
+\newpage
 
-\section{Sample}\label{sec:sample}
+\section{Samples}\label{sec:sample}
 
-test
-
-$n \in \mathbb{Z}$
+\subsection{Mathematical formul\ae}
 
 $$
 f(a) = \frac{1}{2\pi i}\cdot \oint_{\gamma} \frac{f(z)}{z-a} \, \dd{z}
 $$
 
-$\mathcal{L}(\mathcal{A})$
+{
+  \newcommand{\tta}{\text{\texttt{0}}}
+  \newcommand{\ttb}{\text{\texttt{1}}}
+  $$
+  L(\tta^*\ttb \tta^*)
+  = \{\tta^m\ttb \tta^n \mid m, n\in \mathbb{N}\}
+  \in \mathcal{REG}
+  $$
+}
+
+\subsection{Pseudocodes}
 
 \newcommand{\lpf}{\operatorname{lpf}}
 \begin{alg}
@@ -94,7 +53,11 @@ $\mathcal{L}(\mathcal{A})$
   }
 \end{alg}
 
+\subsection{Source codes}
+
 \begin{samplecode}{rust}{線形篩}
+struct LinearSieve(Vec<usize>);
+
 impl LinearSieve {
     pub fn new(n: usize) -> Self {
         let mut lpf = vec![1; n + 1];
@@ -109,16 +72,127 @@ impl LinearSieve {
                 lpf[i * j] = j;
             }
         }
+        Self(lpf)
+    }
+
+    pub fn dp<T>(
+        &self,
+        zero: T,
+        one: T,
+        eq: impl Fn(&T, usize) -> T,
+        gt: impl Fn(&T, usize) -> T,
+    ) -> Vec<T> {
+        let n = self.0.len() - 1;
+        if n == 0 {
+            return vec![zero];
+        } else if n == 1 {
+            return vec![zero, one];
+        }
+
+        let mut res = vec![zero, one];
+        res.reserve(n + 1);
+        for i in 2..=n {
+            let lpf = self.0[i];
+            let j = i / lpf;
+            let tmp = if lpf == self.0[j] { eq(&res[j], lpf) } else { gt(&res[j], lpf) };
+            res.push(tmp);
+        }
+        res
     }
 }
 \end{samplecode}
 
 \samplecodeinput{rust}{sample.rs}
 
-todo: 適当なサンプルとして使える擬似コードや数式などを用意する。
+\subsection{Figures}
 
-\stdrust{\href{https://doc.rust-lang.org/std/vec/struct.Vec.html}{\textcolor{colorcoltext}{\code{std::vec::Vec}}}} (\url{https://doc.rust-lang.org/std/vec/struct.Vec.html})
+\newfontfamily\fakebolded{Junicode.ttf}[FakeBold=30]
+\newcommand{\bordered}[1]{\tikz{\node[text=white]{\fakebolded#1};\node{#1}}}
+\newcommand{\gpf}{\operatorname{gpf}}
+
+\begin{figure}[h]
+  \begin{center}
+    \begin{tikzpicture}
+    \graph[tree layout, sibling sep=0pt]{
+      1 -> {
+        2 -> {
+          4 -> {
+            8 -> 16,
+            12,
+            20
+          },
+          6 -> 18,
+          10
+        },
+        2 -> 14,
+        3 -> {
+          9,
+          15
+        },
+        5,
+        7,
+        e/...,
+        19
+      }
+    };
+    \begin{scope}[every node/.style={font=\scriptsize}]
+      \path
+      (1) -- node {\bordered{2}} (2)
+      (1) -- node {\bordered{3}} (3)
+      (2) -- node {\bordered{2}} (4)
+      (1) -- node {\bordered{5}} (5)
+      (2) -- node {\bordered{3}} (6)
+      (1) -- node {\bordered{7}} (7)
+      (4) -- node {\bordered{2}} (8)
+      (3) -- node {\bordered{3}} (9)
+      (2) -- node {\bordered{5}} (10)
+      (4) -- node {\bordered{3}} (12)
+      (2) -- node {\bordered{7}} (14)
+      (3) -- node {\bordered{5}} (15)
+      (8) -- node {\bordered{2}} (16)
+      (6) -- node {\bordered{3}} (18)
+      (1) -- node {\bordered{19}} (19)
+      (4) -- node {\bordered{5}} (20)
+      (1) -- node {\bordered{\dots}} (e)
+      ;
+    \end{scope}
+    \end{tikzpicture}
+    \caption{$n/{\gpf(n)} \to n$ ($1 < n\le 20$)に辺がある木。}
+  \end{center}
+\end{figure}
+
+\newfontfamily\fakeboldedtt{TheSansMonoCd-W4SemiLight.otf}[FakeBold=30]
+\renewcommand{\bordered}[1]{\tikz{\node[text=white]{\relsize{-1}\fakeboldedtt#1};\node{\relsize{-1}\texttt{#1}}}}
+
+\begin{figure}[h]
+  \begin{center}
+    \begin{tikzpicture}
+      \node[initial, state, accepting] (q_0) at (180:2) {$q_0$};
+      \node[state] (q_1) at (252:2) {$q_1$};
+      \node[state] (q_2) at (324:2) {$q_2$};
+      \node[state] (q_3) at (36:2) {$q_3$};
+      \node[state] (q_4) at (108:2) {$q_4$};
+      \path[->]
+      (q_0) edge [loop] node{\bordered{0}} (q_0)
+      (q_0) edge node{\bordered{1}} (q_1)
+      (q_1) edge node{\bordered{0}} (q_2)
+      (q_1) edge node{\bordered{1}} (q_3)
+      (q_2) edge node{\bordered{0}} (q_4)
+      (q_2) edge node{\bordered{1}} (q_0)
+      (q_3) edge [out=330, in=315, looseness=1.75] node{\bordered{0}} (q_1)
+      (q_3) edge node{\bordered{1}} (q_2)
+      (q_4) edge node{\bordered{0}} (q_3)
+      (q_4) edge [loop] node{\bordered{1}} (q_4)
+      ;
+    \end{tikzpicture}
+    \caption{2進法で解釈したときに5の倍数となる\code{0}/\code{1}列を受理するDFA。}
+  \end{center}
+\end{figure}
+
+\subsection{Hyperlinks}
 
 Section~\hyperref[sec:sample]{\ref{sec:sample}\textsuperscript{→ p.~\pageref{sec:sample}}}
+
+\stdrust{\href{https://doc.rust-lang.org/std/vec/struct.Vec.html}{\textcolor{colorcoltext}{\code{std::vec::Vec}}}} (\url{https://doc.rust-lang.org/std/vec/struct.Vec.html})
 
 \end{document}

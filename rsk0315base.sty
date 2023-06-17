@@ -8,3 +8,52 @@
 \usepackage{luatexja-ruby}
 
 \newcommand\ejspace{\hspace{\ltjgetparameter{xkanjiskip}}}
+
+\usepackage[colorlinks, urlcolor=magenta, linkcolor=magenta]{hyperref}
+\renewcommand{\url}[1]{\href{#1}{\relsize{-1}{\nolinkurl{#1}}}}
+
+\usepackage{tcolorbox}
+\tcbuselibrary{
+  breakable,
+  skins,
+  minted,
+}
+\tcbset{listing engine=minted}
+
+\definecolor{bgblack}{HTML}{555555}
+\newtcblisting{samplecode}[2]{
+  listing only,
+  enhanced,
+  title={\relsize{-1}{\textsf{#2}}},
+  colback=white,
+  colframe=bgblack,
+  minted options={style=bw, frame=none, mathescape},
+  minted language=#1,
+}
+\newtcbinputlisting{\samplecodeinput}[2]{
+  listing only,
+  listing file={#2},
+  enhanced,
+  title={\relsize{-1}{\textsf{#2}}},
+  colback=white,
+  colframe=bgblack,
+  minted options={style=bw, frame=none, mathescape},
+  minted language=#1,
+}
+
+\definecolor{colorcolframe}{HTML}{555555}
+\definecolor{colorcoltext}{HTML}{D24A34}
+\definecolor{colorcolback}{HTML}{EEEEEE}
+\definecolor{colorfill}{HTML}{555555}
+\definecolor{colorlabel}{HTML}{FFFFFF}
+
+\newtcbox{\stdrust}{enhanced,nobeforeafter,tcbox raise base,boxrule=0.4pt,top=0mm,bottom=0mm,
+  right=0mm,left=4mm,arc=1pt,boxsep=2pt,before upper={\vphantom{dlg}},
+  colframe=colorcolframe,coltext=colorcoltext,colback=colorcolback,
+  overlay={\begin{tcbclipinterior}\fill[colorfill] (frame.south west)
+    rectangle node[text=colorlabel,font=\sffamily\bfseries\tiny,rotate=90] {LIB} ([xshift=4mm]frame.north west);\end{tcbclipinterior}}}
+
+\robustify{\stdrust}
+
+\author{\relsize{2}{\lato{\textcolor{useryellow}{\textbf{rsk0315}}}}}
+\date{\relsize{1}{\directlua{commit_hash_and_date("\jobname.tex")}}}
