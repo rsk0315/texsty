@@ -4,6 +4,54 @@
 
 \usepackage{rsk0315}
 
+%% ---
+\usepackage{tcolorbox}
+\tcbuselibrary{
+  breakable,
+  skins,
+  minted,
+}
+\tcbset{listing engine=minted}
+
+\definecolor{bgblack}{HTML}{555555}
+\newtcblisting{samplecode}[2]{
+  listing only,
+  enhanced,
+  title={\relsize{-1}{\textsf{#2}}},
+  colback=white,
+  colframe=bgblack,
+  minted options={style=bw, frame=none, mathescape},
+  minted language=#1,
+}
+\newtcbinputlisting{\samplecodeinput}[2]{
+  listing only,
+  listing file={#2},
+  enhanced,
+  title={\relsize{-1}{\textsf{#2}}},
+  colback=white,
+  colframe=bgblack,
+  minted options={style=bw, frame=none, mathescape},
+  minted language=#1,
+}
+%% ---
+\definecolor{colorcolframe}{HTML}{000000}
+\definecolor{colorcoltext}{HTML}{D24A34}
+\definecolor{colorcolback}{HTML}{EEEEEE}
+\definecolor{colorfill}{HTML}{555555}
+\definecolor{colorlabel}{HTML}{FFFFFF}
+
+\newtcbox{\stdrust}{enhanced,nobeforeafter,tcbox raise base,boxrule=0.4pt,top=0mm,bottom=0mm,
+  right=0mm,left=4mm,arc=1pt,boxsep=2pt,before upper={\vphantom{dlg}},
+  colframe=colorcolframe,coltext=colorcoltext,colback=colorcolback,
+  overlay={\begin{tcbclipinterior}\fill[colorfill] (frame.south west)
+    rectangle node[text=colorlabel,font=\sffamily\bfseries\tiny,rotate=90] {LIB} ([xshift=4mm]frame.north west);\end{tcbclipinterior}}}
+
+\robustify{\stdrust}
+%% ---
+\usepackage[colorlinks, urlcolor=magenta, linkcolor=magenta]{hyperref}
+\renewcommand{\url}[1]{\href{#1}{\relsize{-1}{\nolinkurl{#1}}}}
+%% ---
+
 \author{\lato{\textcolor{useryellow}{\textbf{rsk0315}}}}
 \title{Sample}
 \date{\directlua{commit_hash_and_date("\jobname.tex")}}
@@ -11,6 +59,8 @@
 \begin{document}
 
 \maketitle
+
+\section{Sample}\label{sec:sample}
 
 test
 
@@ -44,13 +94,31 @@ $\mathcal{L}(\mathcal{A})$
   }
 \end{alg}
 
-\begin{minted}[mathescape]{rust}
-  fn main() {
-    // $119\cdot 2^{23} + 1 = 998244353$
-    println!("{}", 119 << 23 | 1);
-  }
-\end{minted}
+\begin{samplecode}{rust}{線形篩}
+impl LinearSieve {
+    pub fn new(n: usize) -> Self {
+        let mut lpf = vec![1; n + 1];
+        let mut primes = vec![];
+        for i in 2..=n {
+            if lpf[i] == 1 {
+                lpf[i] = i;
+                primes.push(i);
+            }
+            let lpf_i = lpf[i];
+            for &j in primes.iter().take_while(|&&j| j <= lpf_i.min(n / i)) {
+                lpf[i * j] = j;
+            }
+        }
+    }
+}
+\end{samplecode}
+
+\samplecodeinput{rust}{sample.rs}
 
 todo: 適当なサンプルとして使える擬似コードや数式などを用意する。
+
+\stdrust{\href{https://doc.rust-lang.org/std/vec/struct.Vec.html}{\textcolor{colorcoltext}{\code{std::vec::Vec}}}} (\url{https://doc.rust-lang.org/std/vec/struct.Vec.html})
+
+Section~\hyperref[sec:sample]{\ref{sec:sample}\textsuperscript{→ p.~\pageref{sec:sample}}}
 
 \end{document}
