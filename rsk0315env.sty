@@ -1,15 +1,22 @@
-\usepackage[ruled, vlined]{algorithm2e}
+\usepackage[ruled, vlined, linesnumbered]{algorithm2e}
+
+% https://tex.stackexchange.com/questions/381459/bug-in-setprogsty-command-in-algorithm2e-package
+\patchcmd{\SetProgSty}{ArgSty}{ProgSty}{}{}
+
 \newenvironment{alg}{%
   \begin{algorithm}
     \DontPrintSemicolon
-    \SetKwBlock{Function}{function}{end function}
+    \SetKwInput{Input}{input}
+    \SetKwInput{Output}{output}
+    \SetProgSty{textrm}
+    \SetCommentSty{textrm}
+    \newcommand{\Fn}[2]{\FuncSty{##1}({##2})}
+    \SetKwProg{Function}{function}{}{}
+    \SetFuncSty{textsc}
     \SetKwComment{Comment}{$\rhd$~}{}
-    \SetProgSty{\rmdefault}
-    \SetCommentSty{\rmdefault}
     \SetKw{Break}{break}
     \SetKw{Continue}{continue}
-
-    % \Function(\textsc{Foo}{$(x)$})
+    % \Function(\Comment*[f]{...}){\Fn{FooBar-baz-qux}{$x$}}
     % {
     % }
 }{%

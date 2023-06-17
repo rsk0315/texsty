@@ -22,9 +22,12 @@ $$
 
 $\mathcal{L}(\mathcal{A})$
 
+\newcommand{\lpf}{\operatorname{lpf}}
 \begin{alg}
   \caption{xxx}
-  \Function(\textsc{Foo}{$(x)$}){
+  \Function(\Comment*[f]{comment}){\Fn{Linear-sieve}{$n$}}{
+    \Input{$n\in\mathbb{N}$}
+    \Output{$(\lpf(i))_{i=0}^n \in \mathbb{N}^{n+1}$}
     {$x \gets x$}\;
   }
 \end{alg}
