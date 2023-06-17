@@ -24,11 +24,23 @@ $\mathcal{L}(\mathcal{A})$
 
 \newcommand{\lpf}{\operatorname{lpf}}
 \begin{alg}
-  \caption{xxx}
-  \Function(\Comment*[f]{comment}){\Fn{Linear-sieve}{$n$}}{
+  \caption{線形篩}
+  \Function(\Comment*[f]{$O(n)$ time}){\Fn{Linear-sieve}{$n$}}{
     \Input{$n\in\mathbb{N}$}
     \Output{$(\lpf(i))_{i=0}^n \in \mathbb{N}^{n+1}$}
-    {$x \gets x$}\;
+    {$p \gets ()$}\Comment*{a list of primes in ascending order}
+    {$l \gets (1)_{i=0}^n$}\Comment*{$l_i = \lpf(i)$}
+    \For{$i \gets (2, \dots, n)$}{
+      \If{$l_i = 1$}{
+        {$l_i \gets i$}\;
+        {$p \xgets{\concat} (i)$}\;
+      }
+      \For{$j \gets p$}{
+        \lIf{$j > \min\,\{l_i, \floor{n/i}\}$}{\Break}
+        {$l_{i\cdot j} \gets j$}\;
+      }
+    }
+    \Return{$l$}\;
   }
 \end{alg}
 
